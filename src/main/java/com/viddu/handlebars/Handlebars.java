@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -21,7 +23,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Handlebars {
 
-    ScriptEngine engine;
+    private final ScriptEngine engine;
+    
     private final ObjectMapper mapper;
 
     private final Logger logger = LoggerFactory.getLogger(Handlebars.class);
@@ -55,5 +58,14 @@ public class Handlebars {
         String contextJson = mapper.writeValueAsString(context);
         logger.debug("Context JSON={}", contextJson);
         return render(template, contextJson);
+    }
+
+    public String render(InputStream is, Object context) throws NoSuchMethodException, JsonProcessingException,
+            ScriptException {
+        Scanner scanner = new Scanner(is, StandardCharsets.UTF_8.name());
+        String template = scanner.useDelimiter("\\A").next();
+        String renderedOutput = render(template, context);
+        scanner.close();
+        return renderedOutput;
     }
 }

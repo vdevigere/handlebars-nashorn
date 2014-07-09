@@ -1,9 +1,10 @@
 package com.viddu.handlebars;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import javax.script.ScriptException;
 
@@ -59,6 +60,19 @@ public class HandlebarsTest {
                 equalTo("Hello Devigere, Viddu \n Relatives: Vivaan- Devigere\n  Bhuvan- Devigere\n  Swetha- Rao\n "));
     }
 
+    @Test
+    public void testRenderTemplatefile() throws NoSuchMethodException, JsonProcessingException, ScriptException {
+        InputStream is = HandlebarsTest.class.getClassLoader().getResourceAsStream("template.html");
+        String result = handlebars.render(is, headOfFamily);
+        assertThat(result, equalToIgnoringWhiteSpace("<!DOCTYPE html>\n" + "<html>\n" + "    <head></head>\n"
+                + "    <body>\n" + "        <h1>Hello Devigere, Viddu</h1>\n" + "        <h2>Relatives:</h2>\n"
+                + "        <ul>\n" + "            \n" + "            <li>\n" + "                Vivaan,  Devigere\n"
+                + "            </li>\n" + "            \n" + "            <li>\n"
+                + "                Bhuvan,  Devigere\n" + "            </li>\n" + "            \n"
+                + "            <li>\n" + "                Swetha,  Rao\n" + "            </li>\n" + "            \n"
+                + "        </ul>\n" + "    </body>\n" + "</html>\n" + ""));
+    }
+    
     @JsonRootName("name")
     class Person {
 

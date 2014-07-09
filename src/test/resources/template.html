@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head></head>
+	<body>
+		<h1>Hello {{name.lastName}}, {{name.firstName}}</h1>
+		<h2>Relatives:</h2>
+		<ul>
+			{{#name.relatives}}
+			<li>
+				{{firstName}}, {{lastName}}
+			</li>
+			{{/name.relatives}}
+		</ul>
+	</body>
+</html>
