@@ -1,8 +1,10 @@
 package com.viddu.handlebars;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -71,6 +73,14 @@ public class HandlebarsTest {
                 + "                Bhuvan,  Devigere\n" + "            </li>\n" + "            \n"
                 + "            <li>\n" + "                Swetha,  Rao\n" + "            </li>\n" + "            \n"
                 + "        </ul>\n" + "    </body>\n" + "</html>\n" + ""));
+    }
+    
+    @Test
+    public void testRegisterPartial() throws NoSuchMethodException, ScriptException, JsonProcessingException{
+        String template = "<a href=\"/people/{{lastName}}\">{{firstName}}</a>";
+        handlebars.registerPartial("link", new ByteArrayInputStream(template.getBytes()));
+        String result = handlebars.render("<ul>{{#name}}<li>{{> link}}</li>{{/name}}</ul>", new Person("Viddu", "Devigere"));
+        assertThat(result, equalTo("<ul><li><a href=\"/people/Devigere\">Viddu</a></li></ul>"));
     }
     
     @JsonRootName("name")
