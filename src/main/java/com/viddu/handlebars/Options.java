@@ -15,11 +15,22 @@
  */
 package com.viddu.handlebars;
 
+import java.util.Map;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
-public class HandlebarsException extends Exception {
+public class Options {
 
-    public HandlebarsException(Throwable e) {
-        super(e);
-    }
+	private final ScriptObjectMirror sccriptObjMirror;
 
+	Options(ScriptObjectMirror scriptObjMirror) {
+		this.sccriptObjMirror = scriptObjMirror;
+	}
+
+	public String fn(ScriptObjectMirror context) {
+		return null;
+	}
+
+	public String inverse(ScriptObjectMirror context){
+		return null;
+	}
 }

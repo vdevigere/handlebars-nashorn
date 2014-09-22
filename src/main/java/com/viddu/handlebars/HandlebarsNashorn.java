@@ -1,3 +1,18 @@
+/*
+ * Copyright [Sep 22, 2014] [Viddu Devigere]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package com.viddu.handlebars;
 
 import java.io.InputStream;
@@ -38,13 +53,13 @@ public class HandlebarsNashorn implements Handlebars {
             handlebars = engine.eval("Handlebars");
             JSON = engine.eval("JSON");
 
-            engine.eval("var ScriptUtils = Java.type('jdk.nashorn.api.scripting.ScriptUtils')\n" + 
-                    "var wrapper = function(name, biFunctionInstance){\n" + 
-                    "    Handlebars.registerHelper(name, function(context, options){\n" + 
-                    "        var wrappedContext = ScriptUtils.wrap(context);\n" + 
-                    "        var wrappedOptions = ScriptUtils.wrap(options);\n" + 
-                    "        return biFunctionInstance.apply(wrappedContext, wrappedOptions); \n" + 
-                    "    }); \n" + 
+            engine.eval("var ScriptUtils = Java.type('jdk.nashorn.api.scripting.ScriptUtils')\n" +
+                    "var wrapper = function(name, biFunctionInstance){\n" +
+                    "    Handlebars.registerHelper(name, function(context, options){\n" +
+                    "        var wrappedContext = ScriptUtils.wrap(context);\n" +
+                    "        var wrappedOptions = ScriptUtils.wrap(options);\n" +
+                    "        return biFunctionInstance.apply(wrappedContext, wrappedOptions); \n" +
+                    "    }); \n" +
                     "}");
         } catch (ScriptException e) {
             logger.debug("Error in script:{}", e);
@@ -106,6 +121,7 @@ public class HandlebarsNashorn implements Handlebars {
     public String render(InputStream templateStream, String contextJson) throws HandlebarsException {
         Scanner scanner = new Scanner(templateStream, StandardCharsets.UTF_8.name());
         String template = scanner.useDelimiter("\\A").next();
+        scanner.close();
         return render(template, contextJson);
     }
 
@@ -113,6 +129,7 @@ public class HandlebarsNashorn implements Handlebars {
     public String render(InputStream templateStream, Map<String, Object> context) throws HandlebarsException {
         Scanner scanner = new Scanner(templateStream, StandardCharsets.UTF_8.name());
         String template = scanner.useDelimiter("\\A").next();
+        scanner.close();
         return render(template, context);
     }
 
@@ -120,6 +137,7 @@ public class HandlebarsNashorn implements Handlebars {
     public String render(InputStream templateStream, Collection<?> context) throws HandlebarsException {
         Scanner scanner = new Scanner(templateStream, StandardCharsets.UTF_8.name());
         String template = scanner.useDelimiter("\\A").next();
+        scanner.close();
         return render(template, context);
     }
 
@@ -127,6 +145,7 @@ public class HandlebarsNashorn implements Handlebars {
     public String render(InputStream templateStream, Object context) throws HandlebarsException {
         Scanner scanner = new Scanner(templateStream, StandardCharsets.UTF_8.name());
         String template = scanner.useDelimiter("\\A").next();
+        scanner.close();
         return render(template, context);
     }
 
